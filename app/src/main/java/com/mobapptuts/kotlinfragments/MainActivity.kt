@@ -21,9 +21,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            selectItem(it)
+        }
+
         navigationView.setNavigationItemSelectedListener {
-            selectDrawerItem(it)
-            true
+            selectItem(it)
         }
         drawerLayout.addDrawerListener(drawerToogle)
 
@@ -41,13 +44,16 @@ class MainActivity : AppCompatActivity() {
         drawerToogle.onConfigurationChanged(newConfig)
     }
 
-    private fun selectDrawerItem(item: MenuItem) {
+    private fun selectItem(item: MenuItem) : Boolean {
         when (item.itemId) {
             R.id.firstFragmentItem -> viewPager.currentItem = 0
             R.id.secondFragmentItem -> viewPager.currentItem = 1
+            R.id.thirdFragmentItem -> viewPager.currentItem = 2
             else -> viewPager.currentItem = 0
         }
-        drawerLayout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START))
+            drawerLayout.closeDrawer(GravityCompat.START)
+        return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
