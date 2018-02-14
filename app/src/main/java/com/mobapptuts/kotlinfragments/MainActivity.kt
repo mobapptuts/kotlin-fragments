@@ -5,12 +5,26 @@ import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.support.v4.view.ViewPager
 import android.support.v7.app.ActionBarDrawerToggle
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ViewPager.OnPageChangeListener {
+    override fun onPageScrollStateChanged(state: Int) {
+    }
+
+    override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+    }
+
+    override fun onPageSelected(position: Int) {
+        val currentMenuItem = bottomNavigationView.menu.getItem(position).itemId
+        if (currentMenuItem != bottomNavigationView.selectedItemId) {
+            bottomNavigationView.menu.getItem(position).isChecked = true
+            bottomNavigationView.menu.findItem(bottomNavigationView.selectedItemId).isChecked = false
+        }
+    }
 
     val drawerToogle by lazy {
         ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close)
@@ -32,6 +46,7 @@ class MainActivity : AppCompatActivity() {
 
         val pagerAdapter = ImageFragmentPagerAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
+        viewPager.addOnPageChangeListener(this)
     }
 
     override fun onPostCreate(savedInstanceState: Bundle?) {
