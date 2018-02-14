@@ -12,9 +12,10 @@ class ImageFragmentPagerAdapter(fragmentManager: FragmentManager): FragmentPager
         return when (position) {
             0 -> FirstImageFragment.newInstance()
             1 -> SecondImageFragment.newInstance()
+            2 -> ThirdImageFragment.newInstance()
             else -> FirstImageFragment.newInstance()
         }
     }
 
-    override fun getCount() = 2
+    override fun getCount() = 3
 }
